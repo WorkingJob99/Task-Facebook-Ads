@@ -1,34 +1,33 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Change Redirect</title>
-    <script>
-        function changeIPAndRedirect() {
-            let customLink = document.getElementById("customLink").value;
-            
-            if (customLink.trim() === "") {
-                alert("कृपया एक वैध लिंक दर्ज करें!");
-                return;
-            }
-
-            fetch('https://api.getproxylist.com/proxy')
-            .then(response => response.json())
-            .then(data => {
+    <title>Auto Redirect with Proxy</title>
+    <script type="text/javascript">
+        // Proxy API से नया IP एड्रेस प्राप्त करें और फिर रीडायरेक्ट करें
+        async function getProxyAndRedirect() {
+            try {
+                // Proxy API से एक नया प्रॉक्सी IP प्राप्त करें
+                let response = await fetch('https://api.getproxylist.com/proxy');
+                let data = await response.json();
                 let proxyIP = data.ip + ":" + data.port;
-                alert("नया प्रॉक्सी IP: " + proxyIP);
-                window.location.href = customLink;
-            })
-            .catch(error => alert("प्रॉक्सी प्राप्त करने में समस्या: " + error));
+
+                alert("नया प्रॉक्सी IP: " + proxyIP); // सिर्फ दिखाने के लिए
+
+                // अब टारगेट लिंक पर रीडायरेक्ट करें
+                window.location.href = "https://t.me/SFAEarnings"; // अपना लिंक बदलें
+            } catch (error) {
+                alert("प्रॉक्सी प्राप्त करने में समस्या: " + error);
+                window.location.href = "https://t.me/SFAEarnings"; // फिर भी Redirect करें
+            }
         }
+
+        // जब पेज लोड हो, तभी ऑटो-रीडायरेक्ट करें
+        window.onload = getProxyAndRedirect;
     </script>
 </head>
 <body>
-    <h2>IP बदलें और अपने लिंक पर रीडायरेक्ट हों</h2>
-    <label for="customLink">अपना लिंक डालें:</label>
-    <input type="text" id="customLink" placeholder="https://www.example.com" size="40">
-    <br><br>
-    <button onclick="changeIPAndRedirect()">IP बदलें और Redirect करें</button>
+    <h2>Redirecting with Proxy...</h2>
 </body>
 </html>
